@@ -10,6 +10,9 @@ const int LOW_GOAL = 0; //8D
 const int MID_GOAL = 0; //8R
 const int HIGH_GOAL = 0; //8U
 const int MAX_HEIGHT = 0; //5U
+const int DESCENT_SPEED = 0;
+const int LIFT_SPEED = 0;
+const int STOP_SPEED = 0;
 
 int button5D = vexRT[Btn5DXmtr2];
 int button8L = vexRT[Btn8LXmtr2];
@@ -45,15 +48,15 @@ void moveLift(int a)
 {
 	if(nMotorEncoder[rlift1] < a)
 	{
-		lift(127);
+		lift(LIFT_SPEED);
 	}
 	else if(nMotorEncoder[rlift1] > a)
 	{
-		lift(-127);
+		lift(DESCENT_SPEED);
 	}
 	else
 	{
-		lift(0);
+		lift(STOP_SPEED);
 	}
 }
 
@@ -115,15 +118,15 @@ void presets(bool * const preset)
 	{
 		if((vexRT[Btn6UXmtr2] == 1) && (vexRT[Btn6DXmtr2] == 0))
 		{
-			lift(127);
+			lift(LIFT_SPEED);
 		}
 		else if((vexRT[Btn6DXmtr2] == 1) && (vexRT[Btn6UXmtr2] == 0))
 		{
-			lift(-127);
+			lift(DESECENT_SPEED);
 		}
 		else
 		{
-			lift(0);
+			lift(STOP_SPEED);
 		}
 	}
 }
