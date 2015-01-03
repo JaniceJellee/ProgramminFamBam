@@ -46,11 +46,11 @@ void lift(int a)
 //move lift until desired value is reached
 void moveLift(int a)
 {
-	if(nMotorEncoder[rlift1] < a)
+	if(nMotorEncoder[rLift1] < a)
 	{
 		lift(LIFT_SPEED);
 	}
-	else if(nMotorEncoder[rlift1] > a)
+	else if(nMotorEncoder[rLift1] > a)
 	{
 		lift(DESCENT_SPEED);
 	}
@@ -121,7 +121,7 @@ void presets(bool * const preset)
 		}
 		else if((vexRT[Btn6DXmtr2] == 1) && (vexRT[Btn6UXmtr2] == 0))
 		{
-			lift(DESECENT_SPEED);
+			lift(DESCENT_SPEED);
 		}
 		else
 		{
@@ -131,9 +131,9 @@ void presets(bool * const preset)
 }
 
 
-task usercontrol()
+task main()
 {
-	nMotorEncoder[rlift1] = 0;
+	nMotorEncoder[rLift1] = 0;
 
 	bool preset = false; //initially preset is false 7to allow for manual control
 
