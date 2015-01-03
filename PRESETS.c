@@ -43,11 +43,11 @@ void lift(int a)
 //move lift until desired value is reached
 void moveLift(int a)
 {
-	if(SensorValue(rlift1) < a)
+	if(nMotorEncoder[rlift1] < a)
 	{
 		lift(127);
 	}
-	else if(SensorValue(rlift1) > a)
+	else if(nMotorEncoder[rlift1] > a)
 	{
 		lift(-127);
 	}
@@ -132,7 +132,7 @@ void presets(bool * const preset)
 task usercontrol()
 {
 
-	bool preset = false; //initially preset is false to allow for manual control
+	bool preset = false; //initially preset is false 7to allow for manual control
 
 	while(true)
 	{
