@@ -63,7 +63,6 @@ void moveLift(int a)
 
 void presets(bool * const preset)
 {
-	nMotorEncoder[rlift1] = 0;
 
 	if((vexRT[Btn8UXmtr2]== 1) || (vexRT[Btn8DXmtr2]== 1) || (vexRT[Btn8LXmtr2] == 1)|| (vexRT[Btn8RXmtr2]== 1)
 		|| (vexRT[Btn5UXmtr2] == 1) || (vexRT[Btn5DXmtr2] == 1)&& (vexRT[Btn6UXmtr2] == 0) && (vexRT[Btn6DXmtr2]== 0))
@@ -134,6 +133,7 @@ void presets(bool * const preset)
 
 task usercontrol()
 {
+	nMotorEncoder[rlift1] = 0;
 
 	bool preset = false; //initially preset is false 7to allow for manual control
 
