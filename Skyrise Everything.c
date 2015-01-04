@@ -120,9 +120,9 @@ void gyroTurn(int degrees10)  //specify the amount of degrees to turn
 
 void pre_auton()
 {
-  // Set bStopTasksBetweenModes to false if you want to keep user created tasks running between
-  // Autonomous and Tele-Op modes. You will need to manage all user created tasks if set to false.
-  bStopTasksBetweenModes = true;
+	// Set bStopTasksBetweenModes to false if you want to keep user created tasks running between
+	// Autonomous and Tele-Op modes. You will need to manage all user created tasks if set to false.
+	bStopTasksBetweenModes = true;
 
 	// All activities that occur before the competition starts
 	// Example: clearing encoders, setting servo positions, ...
@@ -131,9 +131,9 @@ void pre_auton()
 
 task autonomous()
 {
-  // .....................................................................................
-  // Insert user code here.
-  // .....................................................................................
+	// .....................................................................................
+	// Insert user code here.
+	// .....................................................................................
 
 	AutonomousCodePlaceholderForTesting();  // Remove this function call once you have "real" code.
 }
@@ -218,36 +218,36 @@ task usercontrol()
 	while(true)
 	{
 		presets(&preset);
+
+		//SensorType[in8] = sensorNone;
+		//wait1Msec(1000);
+		////Reconfigure Analog Port 8 as a Gyro sensor and allow time for ROBOTC to calibrate it
+		//SensorType[in8] = sensorGyro;
+		//wait1Msec(2000);
+		int X2 = 0, Y1 = 0, X1 = 0, threshold = 15;
+
+		//Create "deadzone" for Y1/Ch3
+		if(abs(vexRT[Ch3]) > threshold)
+			Y1 = vexRT[Ch3];
+		else
+			Y1 = 0;
+		//Create "deadzone" for X1/Ch4
+		if(abs(vexRT[Ch4]) > threshold)
+			X1 = vexRT[Ch4];
+		else
+			X1 = 0;
+		//Create "deadzone" for X2/Ch1
+		if(abs(vexRT[Ch1]) > threshold)
+			X2 = vexRT[Ch1];
+		else
+			X2 = 0;
+
+		//Remote Control Commands
+		motor[DFR] = Y1 - X2 - X1;
+		motor[DBR] =  Y1 - X2 + X1;
+		motor[DFL] = Y1 + X2 + X1;
+		motor[DBL] =  Y1 + X2 - X1;
 	}
-
-	//SensorType[in8] = sensorNone;
-	//wait1Msec(1000);
-	////Reconfigure Analog Port 8 as a Gyro sensor and allow time for ROBOTC to calibrate it
-	//SensorType[in8] = sensorGyro;
-	//wait1Msec(2000);
-	int X2 = 0, Y1 = 0, X1 = 0, threshold = 15;
-
-	//Create "deadzone" for Y1/Ch3
-	if(abs(vexRT[Ch3]) > threshold)
-		Y1 = vexRT[Ch3];
-	else
-		Y1 = 0;
-	//Create "deadzone" for X1/Ch4
-	if(abs(vexRT[Ch4]) > threshold)
-		X1 = vexRT[Ch4];
-	else
-		X1 = 0;
-	//Create "deadzone" for X2/Ch1
-	if(abs(vexRT[Ch1]) > threshold)
-		X2 = vexRT[Ch1];
-	else
-		X2 = 0;
-
-	//Remote Control Commands
-	motor[DFR] = Y1 - X2 - X1;
-	motor[DBR] =  Y1 - X2 + X1;
-	motor[DFL] = Y1 + X2 + X1;
-	motor[DBL] =  Y1 + X2 - X1;
 }
 
 
