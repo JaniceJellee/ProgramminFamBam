@@ -18,14 +18,16 @@
 
 const int error = 30;	//define the error
 
-
+const float DUTY = 0.5;
+const int INTERVAL = 800;
 const int GROUND = 0; //5D
 const int SKYRISE_DISPENSER = 300; //8L
 const int LOW_GOAL = 600; //8D
 const int MID_GOAL = 900; //8R
 const int HIGH_GOAL = 1200; //8U doesnt
 const int MAX_HEIGHT = 1500; //5U
-const int DESCENT_SPEED = -90;
+int DESCENT_SPEED = -90;
+int *const DESCENT_POINTER = &DESCENT_SPEED;
 const int LIFT_SPEED = 100;
 const int STOP_SPEED  = 0;
 
@@ -88,7 +90,7 @@ void moveLift(int a)
 	}
 	else if(nMotorEncoder[lLift1] > a + error)
 	{
-		lift(DESCENT_SPEED);
+		lift(*DESCENT_POINTER);
 	}
 	else
 	{
@@ -113,13 +115,13 @@ int presets(bool * const preset, int* const target)
 	int debug2 = *target;
 
 	int button5D = vexRT[Btn5DXmtr2];
-  int button8L = vexRT[Btn8LXmtr2];
-  int button8D = vexRT[Btn8DXmtr2];
-  int button8R = vexRT[Btn8RXmtr2];
-  int button8U = vexRT[Btn8UXmtr2];
-  int button5U = vexRT[Btn5UXmtr2];
-  int button6U = vexRT[Btn6UXmtr2];
-  int button6D = vexRT[Btn6DXmtr2];
+	int button8L = vexRT[Btn8LXmtr2];
+	int button8D = vexRT[Btn8DXmtr2];
+	int button8R = vexRT[Btn8RXmtr2];
+	int button8U = vexRT[Btn8UXmtr2];
+	int button5U = vexRT[Btn5UXmtr2];
+	int button6U = vexRT[Btn6UXmtr2];
+	int button6D = vexRT[Btn6DXmtr2];
 
 
 	if((button8U== 1) || (button8D== 1) || (button8L == 1)|| (button8R== 1)
@@ -185,7 +187,7 @@ int presets(bool * const preset, int* const target)
 		{
 			if(SensorValue(liftLimit) == 0)
 			{
-				lift(DESCENT_SPEED);
+				lift(*DESCENT_POINTER);
 			}
 			else if(SensorValue(liftLimit) == 1)
 			{
@@ -204,13 +206,27 @@ int presets(bool * const preset, int* const target)
 
 task main()
 {
-
+	int count = 0;
 	int target = 0;
 	nMotorEncoder[lLift1] = 0;
 	bool preset = false;
 	while(true)
 	{
-	target = presets(&preset, &target);
+		if(count <= DUTY*INTERVAL)
+		{
+			*DESCENT_POINTER = -90;
+		}
+		else
+		{
+			*DESCENT_POINTER = 0;
+		}
 
+		target = presets(&preset, &target);
+
+		count++;
+		if(count > INTERVAL)
+		{
+			count = 0;
+		}
 	}
 }
